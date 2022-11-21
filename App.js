@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { AppLoading } from 'expo-app-loading';
+import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter';
+
+import CommitRing from './components/ui/CommitRing';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+	const [numCommits, setNumCommits] = useState(5);
+	let [fontsLoaded] = useFonts({
+		Inter_600SemiBold,
+	});
+
+	if (!fontsLoaded) {
+		return (<AppLoading />);
+	} else {
+		return (
+			<View style={styles.appContainer}>
+				<CommitRing>{ numCommits }</CommitRing>
+			</View>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	appContainer: {
+		padding: 50,
+		paddingHorizontal: 16,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#191919',
+		height: '100%',
+	},
 });
