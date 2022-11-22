@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import { AppLoading } from 'expo-app-loading';
+import AppLoading from 'expo-app-loading';
 import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter';
 
 import CommitRing from './components/ui/CommitRing';
@@ -12,7 +12,7 @@ export default function App() {
 	});
 
 	if (!fontsLoaded) {
-		return (<AppLoading />);
+		return <AppLoading />;
 	} else {
 		return (
 			<View style={styles.appContainer}>
