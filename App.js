@@ -1,25 +1,48 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import AppLoading from 'expo-app-loading';
-import { useFonts, Inter_600SemiBold } from '@expo-google-fonts/inter';
+import * as SplashScreen from 'expo-splash-screen';
+import { Inter_600SemiBold } from '@expo-google-fonts/inter';
 
 import CommitRing from './components/ui/CommitRing';
 
 export default function App() {
 	const [numCommits, setNumCommits] = useState(5);
-	let [fontsLoaded] = useFonts({
-		Inter_600SemiBold,
-	});
+	const [appIsReady, setAppIsReady] = useState(false);
 
-	if (!fontsLoaded) {
-		return <AppLoading />;
-	} else {
-		return (
-			<View style={styles.appContainer}>
-				<CommitRing>{ numCommits }</CommitRing>
-			</View>
-		);
+	useEffect(() => {
+		(async () => {
+			try {
+				await SplashScreen.preventAutoHideAsync();
+				await Font.loadAsync({ Inter_600SemiBold });
+			}
+			catch {
+				error => console.error(error);
+			}
+			finally {
+				setAppIsReady(true);
+			}
+		})();
+	}, []);
+
+	const onLayoutRootView = useCallback(async () => {
+		if (appIsReady) {
+			await SplashScreen.hideAsync();
+		}
+	}, [appIsReady]);
+
+	if (!appIsReady) {
+		return null;
 	}
+
+
+	return (
+		<View
+			style={styles.appContainer}
+			onLayout={onLayoutRootView}
+		>
+			<CommitRing>{ numCommits }</CommitRing>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
