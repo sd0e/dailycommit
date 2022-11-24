@@ -4,6 +4,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { Inter_600SemiBold } from '@expo-google-fonts/inter';
 
 import CommitRing from './components/ui/CommitRing';
+import DropdownButton from './components/ui/DropdownButton';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
 	const [numCommits, setNumCommits] = useState(5);
@@ -12,7 +15,6 @@ export default function App() {
 	useEffect(() => {
 		(async () => {
 			try {
-				await SplashScreen.preventAutoHideAsync();
 				await Font.loadAsync({ Inter_600SemiBold });
 			}
 			catch {
@@ -40,6 +42,7 @@ export default function App() {
 			style={styles.appContainer}
 			onLayout={onLayoutRootView}
 		>
+			<DropdownButton>sd0e</DropdownButton>
 			<CommitRing>{ numCommits }</CommitRing>
 		</View>
 	);
